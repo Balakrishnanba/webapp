@@ -1,0 +1,47 @@
+/* myapp/static/myapp/css/styles.css */
+
+/* Custom CSS for MyApp */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.container {
+    max-width: 960px;
+}
+
+/* Form styling */
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    font-weight: bold;
+}
+
+form button {
+    margin-top: 10px;
+}
+
+/* Image display */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Footer styling */
+footer {
+    margin-top: 40px;
+}

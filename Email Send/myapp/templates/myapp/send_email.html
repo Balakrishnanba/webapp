@@ -1,0 +1,94 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %}Send Email with QR Code - MyApp{% endblock %}
+
+{% block content %}
+<h2>Send Email with QR Code</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <label for="username">Select User:</label>
+    <select name="username" class="form-control mb-3">
+        {% for user in usernames %}
+            <option value="{{ user.username }}">{{ user.username }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="image_id">Select Image:</label>
+    <select name="image_id" class="form-control mb-3" id="imageSelect" onchange="showImagePreview(this)">
+        <option value="" selected disabled>Select an image</option>
+        {% for image in images %}
+            <option value="{{ image.id }}" data-url="{{ image.image.url }}">{{ image.image_name }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- Image Preview -->
+    <div class="mb-3">
+        <img id="imagePreview" src="" alt="Image Preview" class="img-thumbnail" style="max-width: 300px; display: none;">
+    </div>
+
+    <label for="subject">Email Subject:</label>
+    <input type="text" name="subject" placeholder="Enter subject" class="form-control mb-3">
+    <button type="submit" class="btn btn-primary">Send Email</button>
+</form>
+
+<div class="mt-5">
+    <h3>All Uploaded Images</h3>
+    <div class="image-gallery d-flex flex-wrap">
+        {% for image in images %}
+            <div class="image-card p-2">
+                <label>
+                    <input type="radio" name="selected_image" value="{{ image.id }}" class="image-option">
+                    <img src="{{ image.image.url }}" alt="{{ image.image_name }}" class="img-thumbnail" style="max-width: 150px;">
+                    <p>{{ image.image_name }}</p>
+                </label>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    // Show the image preview when selecting from the dropdown
+    function showImagePreview(selectElement) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const imageUrl = selectedOption.getAttribute('data-url');
+        const imagePreview = document.getElementById('imagePreview');
+  
+        if (imageUrl) {
+            imagePreview.src = imageUrl;
+            imagePreview.style.display = 'block';
+  
+            // Update the corresponding radio button selection
+            const radioButtons = document.querySelectorAll('.image-option');
+            radioButtons.forEach(radio => {
+                radio.checked = (radio.value === selectedOption.value);
+            });
+        } else {
+            imagePreview.style.display = 'none';
+        }
+    }
+  
+    // Show the image preview when selecting from the radio buttons
+    function syncDropdownWithRadio(radio) {
+        const dropdown = document.getElementById('imageSelect');
+        const selectedOption = Array.from(dropdown.options).find(option => option.value === radio.value);
+  
+        if (selectedOption) {
+            dropdown.value = radio.value;
+            showImagePreview(dropdown); // Update the preview
+        }
+    }
+  
+    // Add event listeners to radio buttons
+    window.onload = function() {
+        const radioButtons = document.querySelectorAll('.image-option');
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', function() {
+                syncDropdownWithRadio(this);
+            });
+        });
+    };
+  </script>
+  
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %}Home - MyApp{% endblock %}
+
+{% block content %}
+
+<h2>Your Image</h2>
+
+<img src="{{ image.image.url }}" alt="Uploaded Image" class="img-fluid">
+
+<style>
+  
+
+    img {
+    max-height: 450px;
+    width: 6000px;
+    justify-content: center;
+    align-items: center;
+    padding-left: 100px;
+    padding-right: 100px;
+   
+}
+
+</style>
+
+{% endblock %}
